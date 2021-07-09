@@ -166,29 +166,6 @@ def updated_stats(chat, queue, vol=100):
         stats = None
     return stats
 
-def r_ply(type_):
-    if type_ == 'play':
-        ico = '▶'
-    else:
-        ico = '⏸'
-    mar = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton('⏹', 'leave'),
-                InlineKeyboardButton('⏸', 'puse'),
-                InlineKeyboardButton('▶️', 'resume'),
-                InlineKeyboardButton('⏭', 'skip')
-                
-            ],
-            [
-                InlineKeyboardButton('Playlist 📖', 'playlist'),
-                
-            ],
-            [       
-                InlineKeyboardButton("❌ Close",'cls')
-            ]        
-        ]
-    )
     return mar
 
 @Client.on_message(
@@ -344,24 +321,7 @@ async def m_cb(b, cb):
     elif type_ == 'menu':  
         stats = updated_stats(cb.message.chat, qeue)  
         await cb.answer('Menu opened')
-        marr = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton('⏹', 'leave'),
-                    InlineKeyboardButton('⏸', 'puse'),
-                    InlineKeyboardButton('▶️', 'resume'),
-                    InlineKeyboardButton('⏭', 'skip')
-                
-                ],
-                [
-                    InlineKeyboardButton('Playlist 📖', 'playlist'),
-                
-                ],
-                [       
-                    InlineKeyboardButton("❌ Close",'cls')
-                ]        
-            ]
-        )
+        
         await cb.message.edit(stats, reply_markup=marr) 
     elif type_ == 'skip':        
         if qeue:
@@ -406,7 +366,7 @@ async def play(_, message: Message):
     try:
         user = await USER.get_me()
     except:
-        user.first_name =  "@JOEY_MUSIC"
+        user.first_name =  "Assistant"
     usar = user
     wew = usar.id
     try:
@@ -436,7 +396,7 @@ async def play(_, message: Message):
                               #print(e)
                               await lel.edit(
                                   f"<b>🔴 Flood Wait Error 🔴 \nUser {user.first_name} couldn't join your group due to heavy requests for userbot! Make sure user is not banned in group."
-                                  "\n\nOr manually add @Joey_Music to your Group and try again</b>",
+                                  "\n\nOr manually add ASSISTANT to your Group and try again</b>",
                               )
                               pass
     try:
@@ -480,28 +440,7 @@ async def play(_, message: Message):
         print(str(e))
         return
 
-    keyboard = InlineKeyboardMarkup(
-            [   
-                [
-                               
-                    InlineKeyboardButton('📖 Playlist', callback_data='playlist'),
-                    InlineKeyboardButton('Menu ⏯ ', callback_data='menu')
-                
-                ],                     
-                [
-                    InlineKeyboardButton(
-                        text="Watch On YouTube 🎬",
-                        url=f"{url}")
-
-                ],
-                [       
-                    InlineKeyboardButton(
-                        text="❌ Close",
-                        callback_data='cls')
-
-                ]                             
-            ]
-        )
+    
     requested_by = message.from_user.first_name
     await generate_cover(requested_by, title, views, duration, thumbnail)  
     file_path = await converter.convert(youtube.download(url))
@@ -532,7 +471,6 @@ async def play(_, message: Message):
         callsmusic.pytgcalls.join_group_call(message.chat.id, file_path)
         await message.reply_photo(
         photo="final.png",
-        reply_markup=keyboard,
         caption="▶️ **Playing** here the song requested by {} 😜".format(
         message.from_user.mention()
         ),
@@ -615,26 +553,7 @@ async def deezer(client: Client, message_: Message):
         )
         is_playing = False
         return
-    keyboard = InlineKeyboardMarkup(
-         [   
-             [
-                 InlineKeyboardButton('📖 Playlist', callback_data='playlist'),
-                 InlineKeyboardButton('Menu ⏯ ', callback_data='menu')     
-             ],                     
-             [
-                 InlineKeyboardButton(
-                     text="Listen On Deezer 🎬",
-                     url=f"{url}")
-
-             ],
-             [       
-                 InlineKeyboardButton(
-                     text="❌ Close",
-                     callback_data='cls')
-
-            ]                      
-         ]
-     )
+    
     file_path= await converter.convert(wget.download(url))
     await res.edit("Generating Thumbnail")
     await generate_cover(requested_by, title, artist, duration, thumbnail)
@@ -749,25 +668,7 @@ async def jiosaavn(client: Client, message_: Message):
         print(str(e))
         is_playing = False
         return
-    keyboard = InlineKeyboardMarkup(
-         [   
-             [
-               InlineKeyboardButton('📖 Playlist', callback_data='playlist'),
-               InlineKeyboardButton('Menu ⏯ ', callback_data='menu')   
-             ],                     
-             [
-               InlineKeyboardButton(
-                   text="Join Updates Channel",
-                   url='https://t.me/MaharashtraTeam')
-             ],
-             [       
-               InlineKeyboardButton(
-                   text="❌ Close",
-                   callback_data='cls')
-
-            ]                          
-         ]
-     )
+    
     file_path= await converter.convert(wget.download(slink))
     if message_.chat.id in callsmusic.pytgcalls.active_calls:
         position = await queues.put(message_.chat.id, file=file_path)
